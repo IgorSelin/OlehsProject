@@ -8,7 +8,7 @@ export const usersApi = createApi({
     baseUrl: "/users",
   }),
   endpoints: (build) => ({
-    getUsers: build.query< UserType[],null>({
+    getUsers: build.query<UserType[], null>({
       query: () => ({
         url: "",
       }),

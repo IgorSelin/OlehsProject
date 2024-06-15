@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+
+  .header {
+    .title {
+      color: #f0f8ff;
+      font-family: monospace;
+    }
+  }
+
+  .content {
+    padding: 2rem;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+}
