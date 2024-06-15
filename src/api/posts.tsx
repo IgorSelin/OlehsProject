@@ -26,8 +26,26 @@ export const postsApi = createApi({
         url: `/${id}`,
       }),
     }),
+    updatePost: build.mutation<Post, Post>({
+      query: (post) => ({
+        url: `/${post.id}`,
+        method: "PUT",
+        data: post,
+      }),
+    }),
+    deletePost: build.mutation<number, number>({
+      query: (postId) => ({
+        url: `/${postId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetPostsByIdQuery, useAddPostMutation, useGetPostByIdQuery } =
-  postsApi;
+export const {
+  useGetPostsByIdQuery,
+  useAddPostMutation,
+  useGetPostByIdQuery,
+  useUpdatePostMutation,
+  useDeletePostMutation,
+} = postsApi;
