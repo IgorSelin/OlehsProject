@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1rem;
+
+  .key,
+  .commentsTitle {
+    font-weight: 600;
+  }
+
+  .commentsTitle .comment {
+    margin-top: 10px;
+  }
+}

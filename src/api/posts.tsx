@@ -21,7 +21,13 @@ export const postsApi = createApi({
         data: post,
       }),
     }),
+    getPostById: build.query<Post, string>({
+      query: (id) => ({
+        url: `/${id}`,
+      }),
+    }),
   }),
 });
 
-export const { useGetPostsByIdQuery, useAddPostMutation } = postsApi;
+export const { useGetPostsByIdQuery, useAddPostMutation, useGetPostByIdQuery } =
+  postsApi;

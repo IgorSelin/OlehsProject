@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import UsersPage from "../pages/UsersPage";
 import UserPage from "../pages/UserPage";
-import UserPostsPage from "../pages/UserPostsPage";
+import PostPage from "../pages/PostPage";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +14,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/posts/:id",
-    element: <UserPostsPage />,
+    element: <PostPage />,
   },
 ]);
