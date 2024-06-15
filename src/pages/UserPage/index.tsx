@@ -4,11 +4,20 @@ import styles from "./UserPage.module.scss";
 import { useGetPostsByIdQuery } from "../../api/posts";
 import { Button, Card, Flex, Spin, Typography } from "antd";
 import { useGetUserByIdQuery } from "../../api/users";
+import AddPostModal from "./components/AddPostModal";
+import { useState } from "react";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
 
 const UserPage = () => {
   const { id } = useParams();
   const { data: posts, isLoading } = useGetPostsByIdQuery(id!);
   const { data: userInfo } = useGetUserByIdQuery(id!);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const { width, height } = useWindowSize();
+  const [isFinished, setIsFinished] = useState(false);
+
+  const openAddModal = () => setIsAddModalOpen(true);
 
   return (
     <div className={styles.container}>
@@ -18,7 +27,12 @@ const UserPage = () => {
       </Link>
       <Flex className={styles.titleContainer}>
         <Typography.Title>Posts by {userInfo?.name}</Typography.Title>
-        <Button type="primary" size="large" icon={<PlusOutlined />}>
+        <Button
+          type="primary"
+          size="large"
+          icon={<PlusOutlined />}
+          onClick={openAddModal}
+        >
           Add Post
         </Button>
       </Flex>
@@ -37,6 +51,18 @@ const UserPage = () => {
             </Card>
           ))
         )}
+        <AddPostModal
+          isModalOpen={isAddModalOpen}
+          closeModal={() => setIsAddModalOpen(false)}
+          userId={userInfo?.id!}
+          onAddPostFinish={() => setIsFinished(true)}
+        />
+        <Confetti
+          run={isFinished}
+          recycle={false}
+          width={width}
+          height={height}
+        />
       </div>
     </div>
   );

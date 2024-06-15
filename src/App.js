@@ -4,6 +4,8 @@ import { store } from "./store";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./constants/router";
 import MainLayout from "./components/Layout";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
       <Provider store={store}>
         <RouterProvider router={router} />
       </Provider>
+      <ToastContainer />
     </MainLayout>
   );
 }
