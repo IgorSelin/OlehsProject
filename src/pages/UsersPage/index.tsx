@@ -9,7 +9,6 @@ const UsersPage = () => {
   return (
     <div className={styles.container}>
       <Typography.Title>All users</Typography.Title>
-
       {isLoading ? (
         <Spin className={styles.spin} />
       ) : (
@@ -17,7 +16,7 @@ const UsersPage = () => {
           <Card key={e.id} className={styles.user} title={e.name} hoverable>
             <div className={styles.innerContainer}>
               <div> {e.email}</div>
-              <Link to={`/user/${e.id}`}>
+              <Link to={`/users/${e.id}`}>
                 <Button>Posts</Button>
               </Link>
             </div>

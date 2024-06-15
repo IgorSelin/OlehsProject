@@ -12,7 +12,7 @@ const MainLayout = ({ children }: IMainLayout) => {
   return (
     <Layout className={styles.container}>
       <Header className={styles.header}>
-        <h1 className={styles.title}> Users project</h1>
+        <span className={styles.title}> Users project</span>
         <Menu theme="dark" mode="horizontal" />
       </Header>
       <Content className={styles.content}>{children}</Content>

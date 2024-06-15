@@ -8,7 +8,7 @@ export const router = createBrowserRouter([
     element: <UsersPage />,
   },
   {
-    path: "/user/:id",
+    path: "/users/:id",
     element: <UserPage />,
   },
 ]);

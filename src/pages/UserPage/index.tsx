@@ -30,7 +30,7 @@ const UserPage = () => {
             <Card key={e.id} className={styles.post} title={e.title} hoverable>
               <div className={styles.innerContainer}>
                 <div> {e.body}</div>
-                <Link to={`/post/${e.id}`}>
+                <Link to={`/posts/${e.id}`}>
                   <Button>Details</Button>
                 </Link>
               </div>
