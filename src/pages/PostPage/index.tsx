@@ -1,8 +1,9 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetPostByIdQuery } from "../../api/posts";
 import styles from "./PostPage.module.scss";
 import { useGetCommentByIdQuery } from "../../api/comments";
-import { Spin, Card } from "antd";
+import { Spin, Card, Button } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
 
 const PostPage = () => {
   const { id } = useParams();
@@ -13,6 +14,14 @@ const PostPage = () => {
 
   return (
     <div className={styles.container}>
+      <Link to={`/users/${postInfo?.userId}`} className={styles.backLink}>
+        <LeftOutlined />
+        Back to posts
+      </Link>
+      <div className={styles.actionButtonsContainer}>
+        <Button size="large">Edit</Button>
+        <Button size="large">Delete</Button>
+      </div>
       <div>
         <span className={styles.key}>Title:</span> {postInfo?.title}
       </div>

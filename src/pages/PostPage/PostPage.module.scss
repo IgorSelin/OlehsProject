@@ -4,6 +4,11 @@
   gap: 10px;
   font-size: 1rem;
 
+  .backLink {
+    margin-bottom: 20px;
+    display: flex;
+  }
+
   .key,
   .commentsTitle {
     font-weight: 600;
@@ -11,5 +16,12 @@
 
   .commentsTitle .comment {
     margin-top: 10px;
+  }
+
+  .actionButtonsContainer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
   }
 }
