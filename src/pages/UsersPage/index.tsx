@@ -1,5 +1,5 @@
 import { useGetUsersQuery } from "../../api/users";
-import { Card, Spin } from "antd";
+import { Button, Card, Spin, Typography } from "antd";
 import styles from "./UsersPage.module.scss";
 import { Link } from "react-router-dom";
 
@@ -8,15 +8,20 @@ const UsersPage = () => {
 
   return (
     <div className={styles.container}>
+      <Typography.Title>All users</Typography.Title>
+
       {isLoading ? (
-        <Spin className={styles.spin}/>
+        <Spin className={styles.spin} />
       ) : (
         data?.map((e) => (
-          <Link key={e.id} to={`/user/${e.id}`}>
-            <Card className={styles.user} title={e.name} hoverable>
-              {e.email}
-            </Card>
-          </Link>
+          <Card key={e.id} className={styles.user} title={e.name} hoverable>
+            <div className={styles.innerContainer}>
+              <div> {e.email}</div>
+              <Link to={`/user/${e.id}`}>
+                <Button>Posts</Button>
+              </Link>
+            </div>
+          </Card>
         ))
       )}
     </div>
