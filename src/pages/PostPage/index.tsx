@@ -1,19 +1,39 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useDeletePostMutation, useGetPostByIdQuery } from "../../api/posts";
+import {
+  useDeletePostMutation,
+  useGetPostByIdQuery,
+  useUpdatePostMutation,
+} from "../../api/posts";
 import styles from "./PostPage.module.scss";
 import { useGetCommentByIdQuery } from "../../api/comments";
 import { Spin, Card, Button } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import PostModal from "../../components/PostModal";
+import { Post } from "../../types/posts";
+import { useState } from "react";
 
 const PostPage = () => {
   const { id } = useParams();
   const { data: postInfo } = useGetPostByIdQuery(id!);
   const [deletePost] = useDeletePostMutation();
+  const [updatePost] = useUpdatePostMutation();
+  const [isEditPostModalOpen, setIsEditPostModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const { data: comments = [], isLoading } = useGetCommentByIdQuery(
     postInfo?.id!
   );
+
+  const updatePostHandler = async (updatedPost: Post) => {
+    try {
+      await updatePost(updatedPost);
+      navigate(`/users/${postInfo?.userId}`);
+      toast("Post updated successfully!");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const deletePostHandler = async () => {
     try {
@@ -25,6 +45,8 @@ const PostPage = () => {
     }
   };
 
+  const openEditPostModal = () => setIsEditPostModalOpen(true);
+
   return (
     <div className={styles.container}>
       <Link to={`/users/${postInfo?.userId}`} className={styles.backLink}>
@@ -32,7 +54,9 @@ const PostPage = () => {
         Back to posts
       </Link>
       <div className={styles.actionButtonsContainer}>
-        <Button size="large">Edit</Button>
+        <Button size="large" onClick={openEditPostModal}>
+          Edit
+        </Button>
         <Button size="large" onClick={deletePostHandler}>
           Delete
         </Button>
@@ -60,6 +84,12 @@ const PostPage = () => {
           </Card>
         ))
       )}
+      <PostModal
+        title="Edit post"
+        closeModal={() => setIsEditPostModalOpen(false)}
+        isModalOpen={isEditPostModalOpen}
+        onFinish={updatePostHandler}
+      />
     </div>
   );
 };
