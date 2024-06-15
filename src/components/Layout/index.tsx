@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import styles from "./Layout.module.scss";
 import { Alert, Layout, Menu } from "antd";
+import { InfoOutlined } from "@ant-design/icons";
 
 const { Header, Content, Footer } = Layout;
 
@@ -12,6 +13,7 @@ const MainLayout = ({ children }: IMainLayout) => {
   return (
     <Layout className={styles.container}>
       <Alert
+        showIcon
         message="Important: resource will not be really updated on the server but it will be faked as if."
         type="info"
       />
