@@ -1,14 +1,14 @@
 import { Button, Form, Input, Modal } from "antd";
 import { Post } from "../../types/posts";
 import styles from "./PostModal.module.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface PostModalProps {
   isModalOpen: boolean;
   closeModal: () => void;
   title: string;
   defaultValue?: Post;
-  onFinish: any;
+  onFinish: (values: Post) => Promise<void>;
 }
 
 const PostModal = ({
@@ -19,18 +19,21 @@ const PostModal = ({
   onFinish,
 }: PostModalProps) => {
   const [form] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCancel = () => {
-    closeModal();
+  const onFinishHandler = async (values: Post) => {
+    setIsLoading(true);
+    await onFinish(values);
+    setIsLoading(false);
   };
+
+  const handleCancel = () => closeModal();
 
   useEffect(() => {
     if (defaultValue?.id) {
       form.setFieldsValue(defaultValue);
     }
   }, [defaultValue?.id]);
-
-  console.log(defaultValue, "defaultValue");
 
   return (
     <Modal
@@ -40,7 +43,12 @@ const PostModal = ({
       footer={null}
       className={styles.container}
     >
-      <Form form={form} name={title} onFinish={onFinish} layout="vertical">
+      <Form
+        form={form}
+        name={title}
+        onFinish={onFinishHandler}
+        layout="vertical"
+      >
         <Form.Item
           label="Title"
           name="title"
@@ -69,6 +77,7 @@ const PostModal = ({
           type="primary"
           htmlType="submit"
           className={styles.submitButton}
+          loading={isLoading}
         >
           {title}
         </Button>

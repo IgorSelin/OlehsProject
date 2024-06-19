@@ -26,7 +26,6 @@ const PostPage = () => {
   );
 
   const updatePostHandler = async (updatedPost: Post) => {
-    console.log(updatedPost, "");
     try {
       await updatePost({ ...updatedPost, userId: +id! });
       navigate(`/users/${postInfo?.userId}`);

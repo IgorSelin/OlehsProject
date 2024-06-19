@@ -17,25 +17,26 @@ const UserPage = () => {
   const { data: userInfo } = useGetUserByIdQuery(id!);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const { width, height } = useWindowSize();
-  const [showConfetti, setShowConfetti] = useState(false); // Use a more descriptive name
   const [addPost] = useAddPostMutation();
-
+  const [confettiArray, setConfettiArray] = useState<number[]>([]);
   const addPostHandler = async (values: Post) => {
     try {
       await addPost({ ...values });
-      setShowConfetti(true);
+      setConfettiArray((prev) => [...prev, prev.length + 1]);
       setIsAddModalOpen(false);
-      setTimeout(() => setShowConfetti(false), 5000);
-      // need to fix
       toast("Post added successfully!");
+      setTimeout(() => {
+        setConfettiArray((prev) => {
+          prev.unshift();
+          return prev;
+        });
+      }, 5500);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const openAddModal = () => {
-    setIsAddModalOpen(true);
-  };
+  const openAddModal = () => setIsAddModalOpen(true);
 
   return (
     <div className={styles.container}>
@@ -75,13 +76,9 @@ const UserPage = () => {
           onFinish={addPostHandler}
           title="Add post"
         />
-        <Confetti
-          run={showConfetti}
-          recycle={false}
-          width={width}
-          height={height}
-          
-        />
+        {confettiArray.map((e) => (
+          <Confetti key={e} width={width} height={height} recycle={false} />
+        ))}
       </div>
     </div>
   );
