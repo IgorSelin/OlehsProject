@@ -26,8 +26,9 @@ const PostPage = () => {
   );
 
   const updatePostHandler = async (updatedPost: Post) => {
+    console.log(updatedPost, "");
     try {
-      await updatePost(updatedPost);
+      await updatePost({ ...updatedPost, userId: +id! });
       navigate(`/users/${postInfo?.userId}`);
       toast("Post updated successfully!");
     } catch (e) {
@@ -89,6 +90,7 @@ const PostPage = () => {
         closeModal={() => setIsEditPostModalOpen(false)}
         isModalOpen={isEditPostModalOpen}
         onFinish={updatePostHandler}
+        defaultValue={postInfo}
       />
     </div>
   );

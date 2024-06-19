@@ -1,13 +1,15 @@
 import { LeftOutlined, PlusOutlined } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
 import styles from "./UserPage.module.scss";
-import { useGetPostsByIdQuery } from "../../api/posts";
+import { useGetPostsByIdQuery, useAddPostMutation } from "../../api/posts";
 import { Button, Card, Flex, Spin, Typography } from "antd";
 import { useGetUserByIdQuery } from "../../api/users";
-import AddPostModal from "./components/AddPostModal";
 import { useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import PostModal from "../../components/PostModal";
+import { Post } from "../../types/posts";
+import { toast } from "react-toastify";
 
 const UserPage = () => {
   const { id } = useParams();
@@ -15,9 +17,25 @@ const UserPage = () => {
   const { data: userInfo } = useGetUserByIdQuery(id!);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const { width, height } = useWindowSize();
-  const [isFinished, setIsFinished] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false); // Use a more descriptive name
+  const [addPost] = useAddPostMutation();
 
-  const openAddModal = () => setIsAddModalOpen(true);
+  const addPostHandler = async (values: Post) => {
+    try {
+      await addPost({ ...values });
+      setShowConfetti(true);
+      setIsAddModalOpen(false);
+      setTimeout(() => setShowConfetti(false), 5000);
+      // need to fix
+      toast("Post added successfully!");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const openAddModal = () => {
+    setIsAddModalOpen(true);
+  };
 
   return (
     <div className={styles.container}>
@@ -51,17 +69,18 @@ const UserPage = () => {
             </Card>
           ))
         )}
-        <AddPostModal
-          isModalOpen={isAddModalOpen}
+        <PostModal
           closeModal={() => setIsAddModalOpen(false)}
-          userId={userInfo?.id!}
-          onAddPostFinish={() => setIsFinished(true)}
+          isModalOpen={isAddModalOpen}
+          onFinish={addPostHandler}
+          title="Add post"
         />
         <Confetti
-          run={isFinished}
+          run={showConfetti}
           recycle={false}
           width={width}
           height={height}
+          
         />
       </div>
     </div>

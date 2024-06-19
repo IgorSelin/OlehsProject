@@ -28,7 +28,7 @@ export const postsApi = createApi({
     }),
     updatePost: build.mutation<Post, Post>({
       query: (post) => ({
-        url: `/${post.id}`,
+        url: `/${post.userId}`,
         method: "PUT",
         data: post,
       }),

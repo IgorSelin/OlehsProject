@@ -1,6 +1,7 @@
 import { Button, Form, Input, Modal } from "antd";
 import { Post } from "../../types/posts";
 import styles from "./PostModal.module.scss";
+import { useEffect } from "react";
 
 interface PostModalProps {
   isModalOpen: boolean;
@@ -17,9 +18,19 @@ const PostModal = ({
   defaultValue,
   onFinish,
 }: PostModalProps) => {
+  const [form] = Form.useForm();
+
   const handleCancel = () => {
     closeModal();
   };
+
+  useEffect(() => {
+    if (defaultValue?.id) {
+      form.setFieldsValue(defaultValue);
+    }
+  }, [defaultValue?.id]);
+
+  console.log(defaultValue, "defaultValue");
 
   return (
     <Modal
@@ -29,7 +40,7 @@ const PostModal = ({
       footer={null}
       className={styles.container}
     >
-      <Form name={title} onFinish={onFinish} layout="vertical">
+      <Form form={form} name={title} onFinish={onFinish} layout="vertical">
         <Form.Item
           label="Title"
           name="title"
@@ -40,7 +51,7 @@ const PostModal = ({
             },
           ]}
         >
-          <Input defaultValue={defaultValue?.title} />
+          <Input />
         </Form.Item>
         <Form.Item
           label="Description"
@@ -52,10 +63,7 @@ const PostModal = ({
             },
           ]}
         >
-          <Input.TextArea
-            className={styles.descriptionTextarea}
-            defaultValue={defaultValue?.body}
-          />
+          <Input.TextArea className={styles.descriptionTextarea} />
         </Form.Item>
         <Button
           type="primary"
